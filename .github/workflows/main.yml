@@ -12,9 +12,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Build the Docker image
-        working-directory: .
-        run: docker build . --tag my-image-name:$(date +%s)
+      - name: Build and save Docker image
+        run: |
+          docker build -t my-image-name:$(date +%s) .
+          docker save my-image-name:$(date +%s) > my-image.tar
+        # Upload the Docker image as an artifact
+      - name: Upload image artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: my-image
+          path: my-image.tar
 
       - name: Print available Docker images
         run: docker images
@@ -29,6 +36,7 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: my-image-name:$(date +%s)
-          target: /
+          source: my-image.tar
+          target: /root/
+
 
