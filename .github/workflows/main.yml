@@ -26,7 +26,7 @@ jobs:
         username: ${{ secrets.SSH_USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
-          docker load -i /tmp/my-image.tar
+          docker load -i /frontend-client/my-image.tar
         envs: |
           IMAGE=my-image:${{ github.sha }}
         timeout: 120s
