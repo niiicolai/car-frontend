@@ -1,0 +1,18 @@
+.main-header {
+    padding: 20px;
+    border-bottom: 1px solid #333;
+}
+
+.main-header nav {
+    display: flex;
+    gap: 10px;
+}
+
+.main-header nav a {
+    color: #333;
+    text-decoration: none;
+}
+
+.main-header nav a:hover {
+    text-decoration: underline;
+}
