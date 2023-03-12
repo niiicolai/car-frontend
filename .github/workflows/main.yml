@@ -11,7 +11,7 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-
+      
     - name: Build Docker image
       uses: docker/build-push-action@v2
       with:
@@ -19,19 +19,23 @@ jobs:
         push: false
         tags: my-image:${{ github.sha }}
     
+    - name: Save Docker image as tar
+      run: |
+        mkdir -p /tmp/my-image
+        docker save my-image:${{ github.sha }} | gzip > /tmp/my-image/my-image.tar.gz
+      shell: bash
+
+    - name: Upload Docker image artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: my-image
+        path: /tmp/my-image/my-image.tar.gz
+    
     - name: Copy Docker image to server
       uses: appleboy/scp-action@master
       with:
         host: ${{ secrets.SSH_HOST }}
         username: ${{ secrets.SSH_USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
-        source: my-image:${{ github.sha }}
+        source: /tmp/my-image/my-image.tar.gz
         target: /frontend-client/
-
-    - name: Verify file location
-      run: |
-        ls /frontend-client/
-
-    - name: Load Docker image
-      run: |
-        docker load -i /frontend-client/my-image.tar
