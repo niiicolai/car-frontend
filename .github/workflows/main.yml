@@ -1,5 +1,3 @@
-name: Deploy Docker image to server
-
 on:
   push:
     branches:
@@ -18,7 +16,39 @@ jobs:
         context: .
         push: false
         tags: frontend-client:${{ github.sha }}
-        output: type=tar,dest=/tmp/my-image.tar
+        # Enable Docker layer caching
+        # Cache the layers in the Docker image build cache directory
+        # Key the cache on the Dockerfile and lock it to the current commit SHA
+        # Don't restore the cache if the Dockerfile or the commit SHA have changed
+        # Save the cache after the build completes
+        # This cache is shared between all jobs and runs for the repository
+        # You can customize this cache configuration to meet your specific needs
+        # Learn more: https://docs.github.com/en/actions/guides/caching-docker-builds
+        cache-from: type=local,src=/tmp/.buildx-cache
+        cache-to: type=local,dest=/tmp/.buildx-cache
+        cache-key: ${{ runner.os }}-docker-${{ hashFiles('**/Dockerfile') }}
+        cache-restore: |
+          restore=$(docker builder prune -f 2>&1 | grep "Cache mounts will be removed")
+          if [ -n "$restore" ]; then
+            echo "::warning::$restore"
+            echo "::endgroup::"
+            rm -rf /tmp/.buildx-cache
+          else
+            docker builder prune -af
+            docker load -i /tmp/.buildx-cache/image.tar || true
+            echo "::endgroup::"
+          fi
+        cache-save: |
+          echo "::group::Save Docker layer cache"
+          mkdir -p /tmp/.buildx-cache
+          docker save $(docker builder ls | awk '{print $2}') -o /tmp/.buildx-cache/image.tar
+
+    - name: Push Docker image to registry
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        push: true
+        tags: frontend-client:${{ github.sha }}
 
     - name: Copy Docker image to server
       uses: appleboy/scp-action@master
@@ -26,6 +56,5 @@ jobs:
         host: ${{ secrets.SSH_HOST }}
         username: ${{ secrets.SSH_USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
-        source: /tmp/my-image.tar
+        source: frontend-client:${{ github.sha }}
         target: /root/
-
