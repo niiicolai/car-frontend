@@ -43,5 +43,5 @@ jobs:
             docker stop frontend-client
             docker rm frontend-client
             docker load < /root/containers/frontend-client.tar
-            docker run -d --name frontend-client -p 3000:443 -p 3001:80 frontend-client
+            docker run -d --name frontend-client -p 3000:3000 frontend-client
             exit
