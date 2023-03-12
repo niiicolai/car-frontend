@@ -22,5 +22,5 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: my-image-name:$(date +%s)
-          target: "/root/"
+          target: /
 
