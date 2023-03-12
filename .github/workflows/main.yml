@@ -20,7 +20,7 @@ jobs:
         tags: my-image:${{ github.sha }}
     
     - name: Copy Docker image to server
-      uses: appleboy/ssh-action@v1
+      uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.SSH_HOST }}
         username: ${{ secrets.SSH_USER }}
