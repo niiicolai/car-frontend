@@ -18,12 +18,14 @@ jobs:
         context: .
         push: false
         tags: frontend-client:${{ github.sha }}
-    
+        output: type=tar,dest=/tmp/my-image.tar
+
     - name: Copy Docker image to server
       uses: appleboy/scp-action@master
       with:
         host: ${{ secrets.SSH_HOST }}
         username: ${{ secrets.SSH_USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
-        source: frontend-client:${{ github.sha }}
+        source: /tmp/my-image.tar
         target: /frontend-client/
+
