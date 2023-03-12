@@ -16,6 +16,10 @@ jobs:
         working-directory: .
         run: docker build . --tag my-image-name:$(date +%s)
 
+      - name: Print runner's working directory
+        run: |
+          ls -R $GITHUB_WORKSPACE
+
       - name: Copy Docker Image to Server
         uses: appleboy/scp-action@master
         with:
