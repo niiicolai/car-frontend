@@ -33,13 +33,13 @@ jobs:
           source: frontend-client.tar
           target: /root/containers/
 
-      - name: SSH into server
+      - name: Start new container using the new image
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          run: |
+          script: |
             docker stop frontend-client
             docker rm frontend-client
             docker load < /root/containers/frontend-client.tar
