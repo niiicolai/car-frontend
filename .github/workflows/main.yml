@@ -14,22 +14,15 @@ jobs:
 
       - name: Build and save Docker image
         run: |
-          IMAGE_TAG=my-image-name-$(date +%Y%m%d%H%M%S)
+          IMAGE_TAG=frontend-client
           docker build -t $IMAGE_TAG .
-          docker save $IMAGE_TAG > my-image.tar
-        # Upload the Docker image as an artifact
+          docker save $IMAGE_TAG > frontend-client.tar
+
       - name: Upload image artifact
         uses: actions/upload-artifact@v2
         with:
-          name: my-image
-          path: my-image.tar
-
-      - name: Print available Docker images
-        run: docker images
-
-      - name: Print runner's working directory
-        run: |
-          ls -R $GITHUB_WORKSPACE
+          name: frontend-client
+          path: frontend-client.tar
 
       - name: Copy Docker Image to Server
         uses: appleboy/scp-action@master
@@ -37,5 +30,28 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: my-image.tar
-          target: /root/
+          source: frontend-client.tar
+          target: /root/containers/
+
+      - name: SSH into server
+        uses: appleboy/ssh-action@v0.3.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Stop old Docker container
+        run: |
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "docker stop frontend-client"
+
+      - name: Remove old Docker container
+        run: |
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "docker rm frontend-client"
+
+      - name: Load new Docker image
+        run: |
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "docker load < /root/containers/frontend-client.tar"
+
+      - name: Start new Docker container
+        run: |
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "docker run -d --name frontend-client -p 443:3000 -p 80:3000 frontend-client"
