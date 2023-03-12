@@ -1,53 +1,26 @@
+name: Build and Deploy Docker Image
+
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
-  deploy:
+  build_and_deploy:
     runs-on: ubuntu-latest
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-      
-    - name: Setup QEMU
-      uses: docker/setup-qemu-action@v1
-      
-    - name: Setup Docker Buildx
-      id: buildx
-      uses: docker/setup-buildx-action@v1
-      
-    - name: Build Docker image
-      uses: docker/build-push-action@v2
-      with:
-        context: .
-        push: false
-        tags: frontend-client:${{ github.sha }}
-        builder: ${{ steps.buildx.outputs.name }}
-        cache-from: type=local,src=/tmp/.buildx-cache
-        cache-to: type=local,dest=/tmp/.buildx-cache
-        cache-key: ${{ runner.os }}-docker-${{ hashFiles('**/Dockerfile') }}
-        cache-restore: |
-          restore=$(docker builder prune -f 2>&1 | grep "Cache mounts will be removed")
-          if [ -n "$restore" ]; then
-            echo "::warning::$restore"
-            echo "::endgroup::"
-            rm -rf /tmp/.buildx-cache
-          else
-            docker builder prune -af
-            docker load -i /tmp/.buildx-cache/image.tar || true
-            echo "::endgroup::"
-          fi
-        cache-save: |
-          echo "::group::Save Docker layer cache"
-          mkdir -p /tmp/.buildx-cache
-          docker save $(docker builder ls | awk '{print $2}') -o /tmp/.buildx-cache/image.tar
 
-    - name: Copy Docker image to server
-      uses: appleboy/scp-action@master
-      with:
-        host: ${{ secrets.SSH_HOST }}
-        username: ${{ secrets.SSH_USER }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        source: /tmp/my-image.tar
-        target: /root/
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build Docker Image
+        run: docker build -t myimage .
+
+      - name: Copy Docker Image to Server
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "myimage.tar.gz"
+          target: "/root/"
+
