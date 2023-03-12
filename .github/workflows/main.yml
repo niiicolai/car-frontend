@@ -27,5 +27,5 @@ jobs:
         username: ${{ secrets.SSH_USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         source: /tmp/my-image.tar
-        target: /frontend-client/
+        target: frontend-client
 
