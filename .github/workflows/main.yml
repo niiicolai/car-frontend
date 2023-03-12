@@ -14,8 +14,9 @@ jobs:
 
       - name: Build and save Docker image
         run: |
-          docker build -t my-image-name:$(date +%s) .
-          docker save my-image-name:$(date +%s) > my-image.tar
+          IMAGE_TAG=my-image-name-$(date +%Y%m%d%H%M%S)
+          docker build -t $IMAGE_TAG .
+          docker save $IMAGE_TAG > my-image.tar
         # Upload the Docker image as an artifact
       - name: Upload image artifact
         uses: actions/upload-artifact@v2
