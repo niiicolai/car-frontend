@@ -39,19 +39,8 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-
-      - name: Stop old Docker container
-        run: |
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "docker stop frontend-client"
-
-      - name: Remove old Docker container
-        run: |
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "docker rm frontend-client"
-
-      - name: Load new Docker image
-        run: |
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "docker load < /root/containers/frontend-client.tar"
-
-      - name: Start new Docker container
-        run: |
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "docker run -d --name frontend-client -p 3000:443 -p 3001:80 frontend-client"
+          command: |
+            docker stop frontend-client
+            docker rm frontend-client
+            docker load < /root/containers/frontend-client.tar
+            docker run -d --name frontend-client -p 3000:443 -p 3001:80 frontend-client
