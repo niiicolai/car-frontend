@@ -18,7 +18,7 @@ jobs:
 
       - name: Print available Docker images
         run: docker images
-        
+
       - name: Print runner's working directory
         run: |
           ls -R $GITHUB_WORKSPACE
@@ -29,6 +29,6 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: ./my-image-name:$(date +%s)
+          source: my-image-name:$(date +%s)
           target: /
 
