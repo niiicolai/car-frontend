@@ -1,0 +1,79 @@
+.button {
+    cursor: pointer;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 10px;
+    font-weight: bold;
+}
+
+.button.primary {
+    background-color: var(--primary-color);
+}
+
+.button.primary:hover {
+    background-color: var(--primary-color-light);
+}
+
+.button.primary:active {
+    background-color: var(--primary-color-dark);
+}
+
+.button.secondary {
+    background-color: var(--secondary-color);
+}
+
+.button.secondary:hover {
+    background-color: var(--secondary-color-light);
+}
+
+.button.secondary:active {
+    background-color: var(--secondary-color-dark);
+}
+
+.button.success {
+    background-color: var(--success-color);
+}
+
+.button.success:hover {
+    background-color: var(--success-color-light);
+}
+
+.button.success:active {
+    background-color: var(--success-color-dark);
+}
+
+.button.info {
+    background-color: var(--info-color);
+}
+
+.button.info:hover {
+    background-color: var(--info-color-light);
+}
+
+.button.info:active {
+    background-color: var(--info-color-dark);
+}
+
+.button.warning {
+    background-color: var(--warning-color);
+}
+
+.button.warning:hover {
+    background-color: var(--warning-color-light);
+}
+
+.button.warning:active {
+    background-color: var(--warning-color-dark);
+}
+
+.button.danger {
+    background-color: var(--danger-color);
+}
+
+.button.danger:hover {
+    background-color: var(--danger-color-light);
+}
+
+.button.danger:active {
+    background-color: var(--danger-color-dark);
+}

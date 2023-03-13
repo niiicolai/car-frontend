@@ -1,0 +1,82 @@
+.link {
+    cursor: pointer;
+    font-weight: normal;
+}
+
+.link.primary:visited,
+.link.primary {
+    color: var(--primary-color);
+}
+
+.link.primary:hover {
+    color: var(--primary-color-light);
+}
+
+.link.primary:active {
+    color: var(--primary-color-dark);
+}
+
+.link.secondary:visited,
+.link.secondary {
+    color: var(--secondary-color);
+}
+
+.link.secondary:hover {
+    color: var(--secondary-color-light);
+}
+
+.link.secondary:active {
+    color: var(--secondary-color-dark);
+}
+
+.link.success:visited,
+.link.success {
+    color: var(--success-color);
+}
+
+.link.success:hover {
+    color: var(--success-color-light);
+}
+
+.link.success:active {
+    color: var(--success-color-dark);
+}
+
+.link.info:visited,
+.link.info {
+    color: var(--info-color);
+}
+
+.link.info:hover {
+    color: var(--info-color-light);
+}
+
+.link.info:active {
+    color: var(--info-color-dark);
+}
+
+.link.warning:visited,
+.link.warning {
+    color: var(--warning-color);
+}
+
+.link.warning:hover {
+    color: var(--warning-color-light);
+}
+
+.link.warning:active {
+    color: var(--warning-color-dark);
+}
+
+.link.danger:visited,
+.link.danger {
+    color: var(--danger-color);
+}
+
+.link.danger:hover {
+    color: var(--danger-color-light);
+}
+
+.link.danger:active {
+    color: var(--danger-color-dark);
+}

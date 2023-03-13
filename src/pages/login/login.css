@@ -1,0 +1,13 @@
+.login {
+    text-align: center;
+}
+
+.login h1 {
+    font-size: 1.5em;
+    color: var(--text-color);
+}
+
+.login h2 {
+    font-size: 1.2em;
+    color: var(--text-color-light);
+}

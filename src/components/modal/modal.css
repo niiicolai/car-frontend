@@ -1,0 +1,86 @@
+.modal-wrapper .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--shadow-color-alpha);
+}
+
+.modal-wrapper .modal {
+    position: fixed;
+    top: 0;
+    right: -300px;
+    bottom: 0;
+    width: 300px;
+    border-left: var(--border-color) 1px solid;
+    box-shadow: -3px 3px 3px var(--shadow-color);
+    background-color: #fff;
+}
+
+.modal-wrapper .modal header {
+    border-bottom: var(--border-color) 1px solid;
+    text-align: center;
+    padding: 20px;
+}
+
+.modal-wrapper .modal header h2 {
+    margin: 0;
+}
+
+.modal-wrapper .modal .body {
+    padding: 20px;
+}
+
+.modal-wrapper .modal footer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 20px;
+    border-top: var(--border-color) 1px solid;
+}
+
+.modal-wrapper .modal footer button {
+    width: 100%;
+}
+
+.modal-wrapper[visibility=true] .overlay {
+    display: block;
+}
+
+.modal-wrapper[visibility=false] .overlay {
+    display: none;
+}
+
+.modal-wrapper[visibility=false] .modal {
+    display: none;
+}
+
+.modal-wrapper[visibility=true] .modal {
+    animation: show;
+    animation-duration: .5s;
+    animation-fill-mode: forwards;
+    transition: right .5s ease-in-out;
+}
+
+@keyframes show {
+    from {
+        right: -300px;
+    }
+
+    to {
+        right: 0px;
+    }
+}
+
+@keyframes hide {
+    from {
+        right: 0px;
+    }
+
+    to {
+        right: -300px;
+    }
+}
+

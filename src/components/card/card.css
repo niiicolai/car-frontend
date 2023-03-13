@@ -1,0 +1,60 @@
+.card {
+    display: inline-block;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    box-shadow: 3px 3px 3px var(--shadow-color);    
+    width: fit-content;
+}
+
+.card header
+.card .body
+.card footer {
+    padding: 20px;
+}
+
+.card header {
+    border-bottom: 1px solid var(--border-color);
+}
+
+.card header p,
+.card header h2 {
+    margin: 0;
+}
+
+.card .body .img {
+    max-width: 100%;
+    display: block;
+    text-align: center;
+}
+
+.card footer {
+    border-top: 1px solid var(--border-color);
+}
+
+.card.default {
+    color: var(--text-color);
+}
+
+.card.primary {
+    color: var(--primary-color);
+}
+
+.card.secondary {
+    color: var(--secondary-color);
+}
+
+.card.success {
+    color: var(--success-color);
+}
+
+.card.info {
+    color: var(--info-color);
+}
+
+.card.warning {
+    color: var(--warning-color);
+}
+
+.card.danger {
+    color: var(--danger-color);
+}

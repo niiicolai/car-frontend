@@ -1,0 +1,26 @@
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.breadcrumb .current,
+.breadcrumb a {
+    font-size: 1em;
+}
+
+.breadcrumb .current {
+    font-weight: bolder;
+    color: var(--text-color-dark);
+}
+
+.breadcrumb a {
+    font-weight: normal;
+    color: var(--info-color);
+}
+
+.breadcrumb .divider {
+    font-weight: bolder;
+    font-size: 1.2em;
+    color: var(--text-color-dark)
+}

@@ -1,0 +1,25 @@
+.form .form-control {
+    margin-bottom: 20px;
+}
+
+.form .form-control button,
+.form .form-control label,
+.form .form-control input {
+    display: block;
+    width: 100%;
+}
+
+.form .form-control label {
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-align: center;
+}
+
+.form .form-control input {
+    padding: 10px;
+    text-align: center;
+    text-transform: capitalize;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+}

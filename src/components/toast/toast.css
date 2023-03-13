@@ -1,0 +1,72 @@
+.toast {
+    z-index: 999;
+    position: fixed;
+    top: -60px;
+    left: 0;
+    right: 0;
+    height: 60px;
+    padding: 20px;
+    transition: top .5s ease-in-out;
+    color: var(--text-color-dark);
+    box-shadow: 2px 2px 2px var(--shadow-color);
+}
+
+.toast[visibility=true] {
+    top: 0;
+}
+
+.toast.primary {
+    background-color: var(--primary-color);
+}
+
+.toast.secondary {
+    background-color: var(--secondary-color);
+}
+
+.toast.success {
+    background-color: var(--success-color);
+}
+
+.toast.info {
+    background-color: var(--info-color);
+}
+
+.toast.warning {
+    background-color: var(--warning-color);
+}
+
+.toast.danger {
+    background-color: var(--danger-color);
+}
+
+.toast.show {
+    animation: show;
+    animation-duration: .5s;
+    animation-fill-mode: forwards;
+}
+
+.toast.hide {
+    animation: hide;
+    animation-duration: .5s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes show {
+    from {
+        top: -60px;
+    }
+
+    to {
+        top: 0px;
+    }
+}
+
+@keyframes hide {
+    from {
+        top: 0px;
+    }
+
+    to {
+        top: -60px;
+    }
+}

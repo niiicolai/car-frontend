@@ -1,0 +1,9 @@
+.car-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.car-header h1 {
+    margin: 0;
+}
