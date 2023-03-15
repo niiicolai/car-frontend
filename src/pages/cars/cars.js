@@ -13,8 +13,11 @@ import './cars.css';
 const toastDisplayTime = 3000;
 
 const formSettings = [
-    { name: 'brand', type: 'text', placeholder: 'brand' },
+    { name: 'make', type: 'text', placeholder: 'make' },
     { name: 'model', type: 'text', placeholder: 'model' },
+    { name: 'registrationNumber', type: 'text', placeholder: 'Registration number' },
+    { name: 'pricePrDay', type: 'number', placeholder: 'Price pr. day' },
+    { name: 'bestDiscount', type: 'number', placeholder: 'Best discount' },
     {
         value: 'Save', type: 'submit', onclick: (data) => {
             requestPost('/cars', data, newCarSuccess, toastError);

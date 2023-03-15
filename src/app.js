@@ -22,7 +22,7 @@ router.on('/login', () => show(login));
 router.on('/signup', () => show(signup));
 router.on('/logout', () => {
     clearAuthenticated();
-    redirect('/login');
+    redirect('login');
 });
 
 router.resolve();

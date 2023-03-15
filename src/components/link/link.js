@@ -6,6 +6,7 @@ export default function link(options) {
     element.className = `link ${options.className}`;
     element.innerText = options.text;
     element.href = options.href;
+    element.setAttribute('data-navigo', '');
 
     return element;
 }

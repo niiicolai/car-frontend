@@ -39,7 +39,7 @@ function createReservationCard(reservation) {
             text: `ID: ${reservation.id}`
         },
         footer: {
-            text: `Created: ${car.created}`
+            text: `Created: ${reservation.created}`
         }
     });
 }

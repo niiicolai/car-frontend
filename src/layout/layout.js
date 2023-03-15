@@ -5,18 +5,22 @@ import footer from '../components/footer/footer';
 
 import './layout.css'
 
-const headerSettings = {
-    links: [
-        {text: 'Home', href: '/'},
-        {text: 'Cars', href: '/cars'}
-    ]
-}
 
-const footerSettings = {
-    text: 'Copyright ...'
-}
 
 export default function layout(page) {
+    document.body.innerHTML = "";
+
+    const headerSettings = {
+      links: [
+          {text: 'Home', href: '/'},
+          {text: 'Cars', href: '/cars'}
+      ]
+    };
+
+    const footerSettings = {
+        text: 'Copyright ...'
+    }
+
     if (isAuthenticated()) {
         headerSettings.links.push({text: 'Reservations', href: '/reservations'});
         headerSettings.links.push({text: 'Profile', href: '/profile'});
