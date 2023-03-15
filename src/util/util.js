@@ -1,4 +1,12 @@
 
+export function redirect(to, delay = 0) {
+    setTimeout(() => {
+         const host = window.location.host;
+         const protocol = window.location.protocol;
+         window.location.href = `${protocol}//${host}/${to}`;
+    }, delay);
+}
+
 export function render(template) {
     _render(template);
 }

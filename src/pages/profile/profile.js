@@ -4,8 +4,7 @@ import template from './profile.html';
 
 export default function profile() {
     render(template);
-
     const authenticated = getAuthenticated();
-    document.querySelector('.username').innerHTML(authenticated.username);
-    document.querySelector('.roles').innerHTML(authenticated.roles);
+    document.getElementById('username').innerHTML = (authenticated.username);
+    document.getElementById('roles').innerHTML = (authenticated.roles);
 }

@@ -1,6 +1,8 @@
 import Navigo from 'navigo';
 import _ from 'lodash';
 
+import { redirect } from './util/util';
+import { clearAuthenticated } from './model/authenticated';
 import show from './layout/layout';
 
 import index from './pages/index/index';
@@ -18,6 +20,10 @@ router.on('/reservations', () => show(reservations));
 router.on('/profile', () => show(profile));
 router.on('/login', () => show(login));
 router.on('/signup', () => show(signup));
+router.on('/logout', () => {
+    clearAuthenticated();
+    redirect('/login');
+});
 
 router.resolve();
 

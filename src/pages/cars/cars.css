@@ -5,7 +5,14 @@
 }
 
 .car-header h1 {
-    margin: 0;
+    margin-top: 0;
+    font-size: 1.5em;
+    color: var(--text-color);
+}
+
+.car-header h2 {
+    font-size: 1.2em;
+    color: var(--text-color-light);
 }
 
 #cars {

@@ -41,7 +41,7 @@ export default function cars() {
 
         rendables.push(_modal.element);
     }
-
+    
     rendables.push(template);
     renderCollection(rendables);
 

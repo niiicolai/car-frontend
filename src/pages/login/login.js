@@ -15,7 +15,7 @@ const formSettings = [
     {name: 'username', type: 'text', placeholder: 'username'},
     {name: 'password', type: 'password', placeholder: 'password'},
     {value: 'Login', type: 'submit', onclick: (data) => {
-        requestPost('/login', data, loginSuccess, loginError);
+        requestPost('/authenticate', data, loginSuccess, loginError);
     }}
 ];
 
@@ -28,7 +28,7 @@ const linkSettings = {
 export default function login() {
     const _form = form(formSettings);
     const _link = link(linkSettings);
-
+    
     render(template);
     document.getElementById('login').appendChild(_form);
     document.getElementById('login').appendChild(_link);
@@ -40,19 +40,19 @@ function loginSuccess(json) {
         text: 'The login was successful! Redirecting you to your profile.',
         displayTime: toastDisplayTime
     });
-    
-    document.body.appendChild(_toast);
+    render(_toast);
     setAuthenticated(json);
     redirectToProfile(redirectDelay);
 }
 
 function loginError(err) {
+    const msg = (err.message != null ? err.message : 'Something went wrong!');
     const _toast = toast({
         className: 'danger',
-        text: err,
+        text: msg,
         displayTime: toastDisplayTime
     });
-    document.body.appendChild(_toast);
+    render(_toast);
 }
 
 function redirectToProfile(delay) {

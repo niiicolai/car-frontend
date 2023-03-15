@@ -1,9 +1,7 @@
-const path = "https://api.bergandersen.com/api/v1";
-let authorizationToken = "";
+import { isAuthenticated, getAuthenticated } from '../model/authenticated';
 
-export function setAuthorizationToken(token) {
-    authorizationToken = token;
-}
+const path = "https://api.bergandersen.com/api/v1";
+//const path = "http://localhost:8080/api/v1";
 
 export async function requestGet(endpoint, callback, errorCallback) {
     const uri = `${path}${endpoint}`;
@@ -15,7 +13,7 @@ export async function requestGet(endpoint, callback, errorCallback) {
 
 export async function requestPost(endpoint, data, callback, errorCallback) {
     const uri = `${path}${endpoint}`;
-    const opt = options('POST', JSON.stringify(data));
+    const opt = options('POST', data);
     const response = await fetch(uri, opt);
 
     handleResponse(response, callback, errorCallback);
@@ -23,7 +21,7 @@ export async function requestPost(endpoint, data, callback, errorCallback) {
 
 export async function requestPatch(endpoint, data, callback, errorCallback) {
     const uri = `${path}${endpoint}`;
-    const opt = options('PATCH', JSON.stringify(data));
+    const opt = options('PATCH', data);
     const response = await fetch(uri, opt);
 
     handleResponse(response, callback, errorCallback);
@@ -31,28 +29,33 @@ export async function requestPatch(endpoint, data, callback, errorCallback) {
 
 export async function requestDelete(endpoint, callback, errorCallback) {
     const uri = `${path}${endpoint}`;
-    const opt = options('DELETE', JSON.stringify(data));
+    const opt = options('DELETE', data);
     const response = await fetch(uri, opt);
 
     handleResponse(response, callback, errorCallback);
 };
 
-function headers() {
-    return {
-        'Content-Type': "application/json",
-        'Authorization': authorizationToken != "" ? `Bearer ${Api.authorizationToken}` : ""
-    };
+function _headers() {
+    const headers = {};
+    headers['Content-Type'] = 'application/json';
+    
+    if (isAuthenticated()) {
+        headers['Authorization'] = `Bearer ${getAuthenticated().token}`;
+    }
+    
+    return headers;
 }
 
 function options(method, body) {
-    const _options = {method: method, headers: headers()}
+    const headers = _headers();
+    const _options = {method, headers}
     if (body != null) _options.body = body;
     return _options;
 }
 
 async function handleResponse(response, callback, errorCallback) {
     if (!response.ok) {
-        errorCallback(await response.json())
+        errorCallback(await response)
     } else {
         callback(await response.json());
     }
