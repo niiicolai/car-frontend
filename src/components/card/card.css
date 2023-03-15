@@ -6,19 +6,25 @@
     width: fit-content;
 }
 
-.card header
-.card .body
+.card header,
+.card .body,
 .card footer {
-    padding: 20px;
+    padding: 10px;
 }
 
 .card header {
     border-bottom: 1px solid var(--border-color);
+    text-align: center;
 }
 
 .card header p,
 .card header h2 {
     margin: 0;
+}
+
+.card header h2 {
+    font-size: 100%;
+    font-weight: 500;
 }
 
 .card .body .img {

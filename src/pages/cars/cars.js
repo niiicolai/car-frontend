@@ -88,14 +88,14 @@ function createCarCard(car) {
     return card({
         className: 'default',
         header: {
-            text: `${car.brand} ${car.model}`
+            text: `${car.make} ${car.model}`
         },
         body: {
             imgSrc: car.imgSrc,
-            imgAlt: `${car.brand} ${car.model} image`
+            imgAlt: `${car.make} ${car.model} image`
         },
         footer: {
-            text: `Price: ${car.price}`
+            text: `Price: ${car.pricePrDay}<br>Discount: ${car.bestDiscount}`
         }
     });
 }
