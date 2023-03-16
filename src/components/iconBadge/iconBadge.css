@@ -4,6 +4,7 @@
     border-radius: 10px;
     box-shadow: 3px 3px 3px var(--shadow-color);
     position: relative;
+    text-align: center;
 }
 
 .iconBadge-fadeIn {

@@ -23,7 +23,7 @@ export default function signup() {
         .input('street', 'text', 'street')
         .input('city', 'text', 'city')
         .input('zip', 'text', 'zip')
-        .submit('Login', (data) => {
+        .submit('Signup', (data) => {
             const options = requestOptions('/members', 'POST', data);
             request(options, signupSuccess, toastHandler.secondary.bind(toastHandler));
         })
@@ -38,8 +38,7 @@ function signupSuccess(json) {
     document.getElementById('signup').innerHTML = "";
     document.getElementById('signup').appendChild(icon);
 
-    setAuthenticated(json);
-    redirect('profile', redirectDelay);
-    toastHandler.success('The signup was successful! Redirecting you to your profile.');
+    redirect('login', redirectDelay);
+    toastHandler.success('The signup was successful! Redirecting you to login.');
 }
 

@@ -1,5 +1,5 @@
 import { render, clearBody } from '../util/util';
-import { isAuthenticated } from '../model/authenticated';
+import { isAuthenticated, hasRole, ADMIN } from '../model/authenticated';
 import headerBuilder from '../components/header/header';
 import createFooter from '../components/footer/footer';
 
@@ -15,32 +15,39 @@ export default function layout(renderPage) {
 
 function renderHeader() {
     const builder = headerBuilder().title('Cars-r-us');
-    addPublicLinks(builder);
+    publicLinks(builder);
 
-    if (isAuthenticated()) addAuthenticatedLinks(builder);
-    else addUnauthenticatedLinks(builder);
+    if (hasRole(ADMIN())) adminLinks(builder);
+    if (isAuthenticated()) authenticatedLinks(builder);
+    else unauthenticatedLinks(builder);
     
     render(builder.build());
 }
 
-function addPublicLinks(builder) {
+function publicLinks(builder) {
     builder
         .navLink('Home', '/')
         .navLink('Cars', '/cars');
 }
 
-function addAuthenticatedLinks(builder) {
+function adminLinks(builder) {
+    builder
+        .navLink('Members', '/members');
+}
+
+function authenticatedLinks(builder) {
     builder
         .navLink('Reservations', '/reservations')
         .navLink('Profile', '/profile')
         .navLink('Logout', '/logout');
 }
 
-function addUnauthenticatedLinks(builder) {
+function unauthenticatedLinks(builder) {
     builder
         .navLink('Signup', '/signup')
         .navLink('Login', '/login');
 }
+
 
 function renderFooter() {
     render(createFooter('Copyright cars-r-us © 2023'));

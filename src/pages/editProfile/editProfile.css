@@ -1,0 +1,15 @@
+.editProfile .profile-header {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.editProfile .profile-header h1 {
+    margin-top: 0;
+    font-size: 1.5em;
+    color: var(--text-color);
+}
+
+.editProfile .profile-header h2 {
+    font-size: 1.2em;
+    color: var(--text-color-light);
+}

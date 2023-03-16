@@ -16,6 +16,11 @@
     color: var(--text-color-light);
 }
 
+.profile .flex {
+    display: flex;
+    gap: 10px;
+}
+
 .profile .info {
     margin-bottom: 10px;
 }
