@@ -4,30 +4,32 @@ import './header.css'
 
 export default function headerBuilder() {
     const builder = {};
-    const links = [];
+    const options = {title: 'No-title', links: []};
 
-    builder.navLink = function(text, href) {
-        links.push({text, href});
+    builder.title = function(title) {
+        options.title = title;
         return builder;
     };
 
-    builder.callback = function(callback) {
-        callback(builder);
+    builder.navLink = function(text, href) {
+        options.links.push({text, href});
         return builder;
     };
 
     builder.build = function() {
-        return header(links);
+        return header(options);
     }
 
     return builder;
 }
 
-function header(links) {
+function header(options) {
     const wrapper = createWrapper();
     const container = createContainer();
-    const nav = createNavigation(links);
+    const title = createTitle(options.title);
+    const nav = createNavigation(options.links);
 
+    container.appendChild(title);
     container.appendChild(nav);
     wrapper.appendChild(container);
 
@@ -43,6 +45,12 @@ function createWrapper() {
 function createContainer() {
     const element = document.createElement('div');
     element.className = `container`;
+    return element;
+}
+
+function createTitle(title) {
+    const element = document.createElement('h2');
+    element.innerText = title;
     return element;
 }
 

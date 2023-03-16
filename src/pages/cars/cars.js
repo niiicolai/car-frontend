@@ -1,11 +1,11 @@
 import { renderCollection } from '../../util/util';
 import { request, requestOptions } from '../../util/api';
 import { hasRole } from '../../model/authenticated';
+import { createSecondaryButton } from '../../components/button/button';
 import ToastHandler from '../../components/toast/toastHandler';
-import card from '../../components/card/card';
+import cardBuilder from '../../components/card/card';
 import formBuilder from '../../components/form/form';
 import createModal from '../../components/modal/modal';
-import createButton from '../../components/button/button';
 import template from './cars.html';
 
 import './cars.css';
@@ -25,12 +25,12 @@ export default function cars() {
             .input('bestDiscount', 'number', 'Best discount')
             .submit('Create', (data) => {
                 const options = requestOptions('/cars', 'POST', data);
-                request(options, newCarSuccess, toastHandler.danger.bind(toastHandler));
+                request(options, newCarSuccess, toastHandler.secondary.bind(toastHandler));
             })
             .build();
 
         const modal = createModal('new-car-modal', 'New Car', form);
-        newButton = createButton('secondary', 'New car');
+        newButton = createSecondaryButton('New car', null);
         newButton.onclick = modal.closeMethod;
 
         rendables.push(modal.element);
@@ -44,7 +44,7 @@ export default function cars() {
     }
 
     const options = requestOptions('/cars', 'GET', null);
-    request(options, getCarsSuccess, toastHandler.danger.bind(toastHandler));
+    request(options, getCarsSuccess, toastHandler.secondary.bind(toastHandler));
 }
 
 function newCarSuccess(json) {
@@ -65,17 +65,11 @@ function addCarCard(wrapper, car) {
 }
 
 function createCarCard(car) {
-    return card({
-        className: 'default',
-        header: {
-            text: `${car.make} ${car.model}`
-        },
-        body: {
-            imgSrc: car.imgSrc,
-            imgAlt: `${car.make} ${car.model} image`
-        },
-        footer: {
-            text: `Price: ${car.pricePrDay}<br>Discount: ${car.bestDiscount}`
-        }
-    });
+    return cardBuilder()
+        .className('default')
+        .title(`${car.make} ${car.model}`)
+        .image(car.imgSrc, `${car.make} ${car.model} image`)
+        .text(`Price: ${car.pricePrDay}<br>Discount: ${car.bestDiscount}`)
+        .footer(`Created: ${car.created}`)
+        .build();
 }

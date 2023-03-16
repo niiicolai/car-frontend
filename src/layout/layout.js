@@ -14,14 +14,17 @@ export default function layout(renderPage) {
 }
 
 function renderHeader() {
-    const builder = addPublicLinks();
+    const builder = headerBuilder().title('Cars-r-us');
+    addPublicLinks(builder);
+
     if (isAuthenticated()) addAuthenticatedLinks(builder);
     else addUnauthenticatedLinks(builder);
+    
     render(builder.build());
 }
 
-function addPublicLinks() {
-    return headerBuilder()
+function addPublicLinks(builder) {
+    builder
         .navLink('Home', '/')
         .navLink('Cars', '/cars');
 }
@@ -40,5 +43,5 @@ function addUnauthenticatedLinks(builder) {
 }
 
 function renderFooter() {
-    render(createFooter('Copyright ...'));
+    render(createFooter('Copyright cars-r-us © 2023'));
 }

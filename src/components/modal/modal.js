@@ -1,4 +1,4 @@
-import createButton from '../button/button';
+import { createSecondaryButton } from '../button/button';
 
 import './modal.css'
 
@@ -74,7 +74,7 @@ function createBody(option) {
 
 function createFooter(onclick) {
     const footer = document.createElement('footer');
-    const button = createButton('secondary', 'Close');
+    const button = createSecondaryButton('Close');
     button.onclick = onclick;
     footer.appendChild(button);
     return footer;

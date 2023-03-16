@@ -9,9 +9,7 @@ function toast(options) {
     // Initiate self-destructions.
     setTimeout(() => {
         element.className = `toast ${options.className} hide`;
-        setTimeout(() => {
-            element.remove();
-        }, 500);
+        setTimeout(() => element.remove(), 500);
     }, options.displayTime);
 
     return element;

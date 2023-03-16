@@ -1,4 +1,4 @@
-import createButton from '../button/button';
+import { createSecondaryButton } from '../button/button';
 
 import './form.css'
 
@@ -78,7 +78,7 @@ function createInputElement(option) {
 }
 
 function createSubmitElement(option, form) {
-    const button = createButton('success', option.value, option.type);
+    const button = createSecondaryButton(option.value, option.type);
 
     if (option.onclick != null)
         button.onclick = () => {

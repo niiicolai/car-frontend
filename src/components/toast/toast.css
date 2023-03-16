@@ -1,7 +1,7 @@
 .toast {
     z-index: 999;
     position: fixed;
-    top: 0;
+    top: -60px;
     left: 0;
     right: 0;
     height: 60px;
@@ -9,6 +9,8 @@
     transition: top .5s ease-in-out;
     color: var(--text-color-dark);
     box-shadow: 2px 2px 2px var(--shadow-color);
+    color: #fff;
+    text-align: center;
 }
 
 .toast[visibility=true] {
@@ -40,18 +42,18 @@
 }
 
 .toast.show {
-    animation: show;
+    animation: showAnimation;
     animation-duration: .5s;
     animation-fill-mode: forwards;
 }
 
 .toast.hide {
-    animation: hide;
+    animation: hideAnimation;
     animation-duration: .5s;
     animation-fill-mode: forwards;
 }
 
-@keyframes show {
+@keyframes showAnimation {
     from {
         top: -60px;
     }
@@ -61,7 +63,7 @@
     }
 }
 
-@keyframes hide {
+@keyframes hideAnimation {
     from {
         top: 0px;
     }

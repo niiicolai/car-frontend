@@ -1,7 +1,7 @@
 
 import './card.css'
 
-export default function card(options) {
+export function card(options) {
     const wrapper = createWrapper(options);
 
     if (options.header) {
@@ -19,6 +19,43 @@ export default function card(options) {
         wrapper.appendChild(footer);
     }
     return wrapper;
+}
+
+export default function cardBuilder() {
+    const builder = {};
+    const options = {header: {}, body: {}, footer: {}};
+
+    builder.className = function(className) {
+        options.className = className;
+        return builder;
+    };
+
+    builder.title = function(title) {
+        options.header.text = title;
+        return builder;
+    };
+
+    builder.image = function(src, alt) {
+        options.body.imgSrc = src;
+        options.body.imgAlt = alt;
+        return builder;
+    };
+
+    builder.text = function(text) {
+        options.body.text = text;
+        return builder;
+    };
+
+    builder.footer = function(text) {
+        options.footer.text = text;
+        return builder;
+    };
+
+    builder.build = function() {
+        return card(options);
+    }
+
+    return builder;
 }
 
 function createWrapper(options) {
@@ -48,7 +85,7 @@ function createBody(option) {
 
     if (option.text != null) {
         const p = document.createElement('p');
-        p.innerText = option.text;
+        p.innerHTML = option.text;
         body.appendChild(p);
     }
 

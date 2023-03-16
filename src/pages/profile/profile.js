@@ -2,6 +2,8 @@ import { render } from '../../util/util';
 import { getAuthenticated } from '../../model/authenticated';
 import template from './profile.html';
 
+import './profile.css';
+
 export default function profile() {
     render(template);
     const authenticated = getAuthenticated();

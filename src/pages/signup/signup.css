@@ -2,6 +2,18 @@
     text-align: center;
 }
 
+.signup .iconBadge,
+.signup a,
+.signup form {
+    margin-bottom: 20px;
+}
+
+.signup .button,
+.signup a {
+    display: block;
+    width: 100%;
+}
+
 .signup h1 {
     font-size: 1.5em;
     color: var(--text-color);

@@ -2,6 +2,18 @@
     text-align: center;
 }
 
+.login .iconBadge,
+.login a,
+.login form {
+    margin-bottom: 20px;
+}
+
+.login .button,
+.login a {
+    display: block;
+    width: 100%;
+}
+
 .login h1 {
     font-size: 1.5em;
     color: var(--text-color);

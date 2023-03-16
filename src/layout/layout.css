@@ -1,43 +1,44 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css');
 
 :root {
 
-    --primary-color: #0099cc;
-    --primary-color-light: #00abe4;
-    --primary-color-dark: #0179a1;
+    --primary-color: #1e3d72;
+    --primary-color-light: #254b8d;
+    --primary-color-dark: #18315c;
 
-    --secondary-color: #909793;
-    --secondary-color-light: #b1b8b4;
-    --secondary-color-dark: #777c79;
+    --secondary-color: #b51a57;
+    --secondary-color-light: #ce1f65;
+    --secondary-color-dark: #961649;
 
-    --success-color: #41cc7b;
-    --success-color-light: #45e989;
-    --success-color-dark: #38a164;
+    --success-color: #159757;
+    --success-color-light: #1ab165;
+    --success-color-dark: #117e47;
 
-    --info-color: #4189cc;
-    --info-color-light: #4ea2f0;
-    --info-color-dark: #3572aa;
+    --info-color: #8475b8;
+    --info-color-light: #9989d4;
+    --info-color-dark: #6e6299;
 
-    --warning-color: #e09c1c;
-    --warning-color-light: #f5a91d;
-    --warning-color-dark: #d1911b;
+    --warning-color: #dfc717;
+    --warning-color-light: #f0d71a;
+    --warning-color-dark: #c4af15;
 
-    --danger-color: #d42954;
-    --danger-color-light: #ec2f5f;
-    --danger-color-dark: #b82248;
+    --danger-color: #eb190a;
+    --danger-color-light: #f51a0a;
+    --danger-color-dark: #dd1608;
 
-    --text-color: #333;
-    --text-color-light: #bebebe;
-    --text-color-dark: #000000;
+    --text-color: #000906;
+    --text-color-light: #000e09;
+    --text-color-dark: #000302;
 
-    --border-color: #333;
-    --border-color-light: #bebebe;
-    --border-color-dark: #000000;
+    --border-color: #000906;
+    --border-color-light: #000e09;
+    --border-color-dark: #000302;
 
-    --shadow-color: #e2e2e2;
-    --shadow-color-alpha: #e2e2e271;
-    --shadow-color-light: #f0f0f0;
-    --shadow-color-dark: #c7c7c7;
+    --shadow-color: #dde0eb;
+    --shadow-color-alpha: #dde0eb6c;
+    --shadow-color-light: #e7eaf7;
+    --shadow-color-dark: #ced1db;
 }
 
 * {

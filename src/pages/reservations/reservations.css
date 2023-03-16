@@ -1,29 +1,29 @@
-.car-header {
+.reservation-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
 }
 
-.car-header h1 {
+.reservation-header h1 {
     margin-top: 0;
     font-size: 1.5em;
     color: var(--text-color);
 }
 
-.car-header h2 {
+.reservation-header h2 {
     font-size: 1.2em;
     color: var(--text-color-light);
 }
 
-#cars {
+#reservations {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
     align-items: center;
 }
 
-#cars .card {
+#reservations .card {
     margin-bottom: 20px;
     width: 180px;
     height: 280px;

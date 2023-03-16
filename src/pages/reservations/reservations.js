@@ -1,15 +1,17 @@
 import { render } from '../../util/util'
 import { request, requestOptions } from '../../util/api';
 import ToastHandler from '../../components/toast/toastHandler';
-import card from '../../components/card/card';
+import cardBuilder from '../../components/card/card';
 import template from './reservations.html';
+
+import './reservations.css';
 
 const toastHandler = new ToastHandler(3000);
 
 export default function reservations() {
     render(template);
     const options = requestOptions('/reservations', 'GET', null);
-    request(options, getReservationsSuccess, toastHandler.danger.bind(toastHandler));
+    request(options, getReservationsSuccess, toastHandler.secondary.bind(toastHandler));
 }
 
 function getReservationsSuccess(reservations) {
@@ -25,13 +27,10 @@ function addReservationCard(wrapper, reservation) {
 }
 
 function createReservationCard(reservation) {
-    return card({
-        className: 'default',
-        header: {
-            text: `ID: ${reservation.id}`
-        },
-        footer: {
-            text: `Created: ${reservation.created}`
-        }
-    });
+    return cardBuilder()
+        .className('default')
+        .title(`ID: ${reservation.id}`)
+        .text(`Car ...`)
+        .footer(`Created: ${reservation.created}`)
+        .build();
 }
