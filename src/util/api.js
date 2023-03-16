@@ -1,7 +1,7 @@
 import { isAuthenticated, getAuthenticated } from '../model/authenticated';
 
-//const path = "https://api.bergandersen.com/api/v1";
-const path = "http://localhost:8080/api/v1";
+const path = "https://api.bergandersen.com/api/v1";
+//const path = "http://localhost:8080/api/v1";
 
 export async function request(options, callback = (e) => alert(e), errorCallback = (e) => alert(e)) {
     const uri = _uri(options);
