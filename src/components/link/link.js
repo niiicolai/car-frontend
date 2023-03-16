@@ -1,7 +1,7 @@
 
 import './link.css'
 
-export default function link(options) {
+export function link(options) {
     const element = document.createElement('a');
     element.className = `link ${options.className}`;
     element.innerText = options.text;
@@ -9,4 +9,13 @@ export default function link(options) {
     element.setAttribute('data-navigo', '');
 
     return element;
+}
+
+
+export default function createLink(className, text, href) {
+    return link({
+        className: className,
+        text: text,
+        href: href
+    });
 }

@@ -1,21 +1,43 @@
-import button from '../button/button';
+import createButton from '../button/button';
 
 import './form.css'
 
-export default function form(options) {
-    const wrapper = document.createElement('form');
-    wrapper.className = "form";
-    wrapper.onsubmit = (e) => e.preventDefault();
+export default function formBuilder() {
+    const builder = {};
+    const elements = [];
+    const form = createFormElement();
 
-    for (let i = 0; i < options.length; i++) {
-        const element = createInputWrapperElement(options[i], wrapper);
-        wrapper.appendChild(element);
+    builder.input = function(name, type, placeholder = null, value = null, label = null) {
+        const inputElement = createInputWrapperElement({name, type, value, placeholder, label});
+        elements.push(inputElement);
+        return builder;
+    };
+
+    builder.submit = function(value, onclick) {
+        const submitElement = createSubmitElement({value, onclick, type: 'submit'}, form);
+        elements.push(submitElement);
+        return builder;
     }
 
-    return wrapper;
+    builder.build = function() {
+        for (let i = 0; i < elements.length; i++) {
+            form.appendChild(elements[i]);
+        }
+
+        return form;
+    }
+
+    return builder;
 }
 
-function createInputWrapperElement(option, form) {
+function createFormElement() {
+    const form = document.createElement('form');
+    form.className = "form";
+    form.onsubmit = (e) => e.preventDefault();
+    return form;
+}
+
+function createInputWrapperElement(option) {
     const div = document.createElement('div');
     div.className = "form-control";
 
@@ -24,12 +46,7 @@ function createInputWrapperElement(option, form) {
         div.appendChild(labelElement);
     }
 
-    let inputElement = null;
-
-    if (option.type == 'submit')
-        inputElement = createSubmitElement(option, form);
-    else
-        inputElement = createInputElement(option);
+    const inputElement = createInputElement(option);
 
     div.appendChild(inputElement);
 
@@ -61,18 +78,14 @@ function createInputElement(option) {
 }
 
 function createSubmitElement(option, form) {
-    const _button = button({
-        text: option.value,
-        className: 'success',
-        type: option.type
-    });
+    const button = createButton('success', option.value, option.type);
 
     if (option.onclick != null)
-        _button.onclick = () => {
+        button.onclick = () => {
             const formData = Object.fromEntries(new FormData(form));
             const json = JSON.stringify(formData);
             option.onclick(json);
         };
 
-    return _button;
+    return button;
 }

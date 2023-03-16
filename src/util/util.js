@@ -1,4 +1,8 @@
 
+export function clearBody() {
+    document.body.innerHTML = "";
+}
+
 export function redirect(to, delay = 0) {
     setTimeout(() => {
          const host = window.location.host;

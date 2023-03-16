@@ -1,14 +1,15 @@
 import { render } from '../../util/util'
-import { requestGet } from '../../util/api';
+import { request, requestOptions } from '../../util/api';
+import ToastHandler from '../../components/toast/toastHandler';
 import card from '../../components/card/card';
-import toast from '../../components/toast/toast';
 import template from './reservations.html';
 
-const toastDisplayTime = 3000;
+const toastHandler = new ToastHandler(3000);
 
 export default function reservations() {
     render(template);
-    requestGet('/reservations', getReservationsSuccess, toastError);
+    const options = requestOptions('/reservations', 'GET', null);
+    request(options, getReservationsSuccess, toastHandler.danger.bind(toastHandler));
 }
 
 function getReservationsSuccess(reservations) {
@@ -16,15 +17,6 @@ function getReservationsSuccess(reservations) {
     for (let i = 0; i < reservations.length; i++) {
         addReservationCard(wrapper, reservations[i]);
     }
-}
-
-function toastError(err) {
-    const _toast = toast({
-        className: 'danger',
-        text: err,
-        displayTime: toastDisplayTime
-    });
-    document.body.appendChild(_toast);
 }
 
 function addReservationCard(wrapper, reservation) {

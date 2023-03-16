@@ -1,20 +1,25 @@
-import button from '../button/button';
+import createButton from '../button/button';
 
 import './modal.css'
 
-export default function modal(options) {
+export function modal(options) {
     const closeMethod = () => {
         toggleVisibility(document.getElementById(options.id));
     };
 
     const wrapper = createWrapper(options);
-    const _modal = createModal(options, closeMethod);
+    const _modal = createModalElement(options, closeMethod);
     const _overlay = createOverlay(closeMethod);
 
     wrapper.appendChild(_overlay);
     wrapper.appendChild(_modal);
 
     return {element: wrapper, closeMethod: closeMethod};
+}
+
+export default function createModal(id, text, body) {
+    const header = { text };
+    return modal({id, header, body});
 }
 
 function createWrapper(options) {
@@ -32,7 +37,7 @@ function createOverlay(closeMethod) {
     return overlay;
 }
 
-function createModal(options, closeMethod) {
+function createModalElement(options, closeMethod) {
     const _modal = document.createElement('div');
     _modal.className = "modal";
 
@@ -69,12 +74,9 @@ function createBody(option) {
 
 function createFooter(onclick) {
     const footer = document.createElement('footer');
-    const _button = button({
-        text: "Close",
-        className: "secondary",
-        onclick: onclick
-    });
-    footer.appendChild(_button);
+    const button = createButton('secondary', 'Close');
+    button.onclick = onclick;
+    footer.appendChild(button);
     return footer;
 }
 

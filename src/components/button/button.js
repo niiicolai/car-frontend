@@ -1,7 +1,7 @@
 
 import './button.css'
 
-export default function button(options) {
+export function button(options) {
     const element = document.createElement('button');
     element.className = `button ${options.className}`;
     element.innerText = options.text;
@@ -13,4 +13,13 @@ export default function button(options) {
         element.type = options.type;
 
     return element;
+}
+
+export default function createButton(className, text, type = null, onclick = null) {
+    return button({
+        text: text,
+        className: className,
+        type: type,
+        onclick: onclick
+    });
 }

@@ -1,39 +1,44 @@
-import { render } from '../util/util';
+import { render, clearBody } from '../util/util';
 import { isAuthenticated } from '../model/authenticated';
-import header from '../components/navigation/header';
-import footer from '../components/footer/footer';
+import headerBuilder from '../components/header/header';
+import createFooter from '../components/footer/footer';
 
 import './layout.css'
 
+export default function layout(renderPage) {
+    clearBody();
 
+    renderHeader();
+    renderPage();
+    renderFooter();
+}
 
-export default function layout(page) {
-    document.body.innerHTML = "";
+function renderHeader() {
+    const builder = addPublicLinks();
+    if (isAuthenticated()) addAuthenticatedLinks(builder);
+    else addUnauthenticatedLinks(builder);
+    render(builder.build());
+}
 
-    const headerSettings = {
-      links: [
-          {text: 'Home', href: '/'},
-          {text: 'Cars', href: '/cars'}
-      ]
-    };
+function addPublicLinks() {
+    return headerBuilder()
+        .navLink('Home', '/')
+        .navLink('Cars', '/cars');
+}
 
-    const footerSettings = {
-        text: 'Copyright ...'
-    }
+function addAuthenticatedLinks(builder) {
+    builder
+        .navLink('Reservations', '/reservations')
+        .navLink('Profile', '/profile')
+        .navLink('Logout', '/logout');
+}
 
-    if (isAuthenticated()) {
-        headerSettings.links.push({text: 'Reservations', href: '/reservations'});
-        headerSettings.links.push({text: 'Profile', href: '/profile'});
-        headerSettings.links.push({text: 'Logout', href: '/logout'});
-    } else {
-        headerSettings.links.push({text: 'Signup', href: '/signup'});
-        headerSettings.links.push({text: 'Login', href: '/login'});
-    }
+function addUnauthenticatedLinks(builder) {
+    builder
+        .navLink('Signup', '/signup')
+        .navLink('Login', '/login');
+}
 
-    const _header = header(headerSettings);
-    const _footer = footer(footerSettings);
-
-    render(_header);
-    page();
-    render(_footer);
-}   
+function renderFooter() {
+    render(createFooter('Copyright ...'));
+}

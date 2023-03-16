@@ -1,10 +1,10 @@
 
 import './footer.css'
 
-export default function footer(options) {
+export default function createFooter(text) {
     const wrapper = createWrapper();
     const container = createContainer();
-    container.innerHTML = options.text;
+    container.innerHTML = text;
 
     wrapper.appendChild(container);
 

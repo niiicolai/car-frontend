@@ -1,48 +1,39 @@
 import { renderCollection } from '../../util/util';
-import { requestGet, requestPost } from '../../util/api';
+import { request, requestOptions } from '../../util/api';
 import { hasRole } from '../../model/authenticated';
+import ToastHandler from '../../components/toast/toastHandler';
 import card from '../../components/card/card';
-import toast from '../../components/toast/toast';
-import form from '../../components/form/form';
-import modal from '../../components/modal/modal';
-import button from '../../components/button/button';
+import formBuilder from '../../components/form/form';
+import createModal from '../../components/modal/modal';
+import createButton from '../../components/button/button';
 import template from './cars.html';
 
 import './cars.css';
 
-const toastDisplayTime = 3000;
-
-const formSettings = [
-    { name: 'make', type: 'text', placeholder: 'make' },
-    { name: 'model', type: 'text', placeholder: 'model' },
-    { name: 'registrationNumber', type: 'text', placeholder: 'Registration number' },
-    { name: 'pricePrDay', type: 'number', placeholder: 'Price pr. day' },
-    { name: 'bestDiscount', type: 'number', placeholder: 'Best discount' },
-    {
-        value: 'Save', type: 'submit', onclick: (data) => {
-            requestPost('/cars', data, newCarSuccess, toastError);
-        }
-    }
-];
+const toastHandler = new ToastHandler(3000);
 
 export default function cars() {
     const rendables = [];
     let newButton = null;
 
     if (hasRole('ADMIN')) {
-        const _form = form(formSettings);
-        const _modal = modal({
-            id: 'new-car-modal',
-            header: { text: 'New Car' },
-            body: _form
-        });
-        newButton = button({
-            text: 'New car',
-            className: 'secondary',
-            onclick: _modal.closeMethod
-        });
+        const form = formBuilder()
+            .input('make', 'text', 'make')
+            .input('model', 'text', 'model')
+            .input('registrationNumber', 'text', 'Registration number')
+            .input('pricePrDay', 'number', 'Price pr. day')
+            .input('bestDiscount', 'number', 'Best discount')
+            .submit('Create', (data) => {
+                const options = requestOptions('/cars', 'POST', data);
+                request(options, newCarSuccess, toastHandler.danger.bind(toastHandler));
+            })
+            .build();
 
-        rendables.push(_modal.element);
+        const modal = createModal('new-car-modal', 'New Car', form);
+        newButton = createButton('secondary', 'New car');
+        newButton.onclick = modal.closeMethod;
+
+        rendables.push(modal.element);
     }
     
     rendables.push(template);
@@ -52,18 +43,13 @@ export default function cars() {
         document.querySelector('.car-header').appendChild(newButton);
     }
 
-    requestGet('/cars', getCarsSuccess, toastError);
+    const options = requestOptions('/cars', 'GET', null);
+    request(options, getCarsSuccess, toastHandler.danger.bind(toastHandler));
 }
 
 function newCarSuccess(json) {
-    const _toast = toast({
-        className: 'success',
-        text: 'The car was saved successfully!',
-        displayTime: toastDisplayTime
-    });
-
     addCarCard(document.getElementById('cars'), json);
-    document.body.appendChild(_toast);
+    toastHandler.success('The car was saved successfully!');
 }
 
 function getCarsSuccess(cars) {
@@ -71,15 +57,6 @@ function getCarsSuccess(cars) {
     for (let i = 0; i < cars.length; i++) {
         addCarCard(wrapper, cars[i]);
     }
-}
-
-function toastError(err) {
-    const _toast = toast({
-        className: 'danger',
-        text: err,
-        displayTime: toastDisplayTime
-    });
-    document.body.appendChild(_toast);
 }
 
 function addCarCard(wrapper, car) {

@@ -3,41 +3,24 @@ import { isAuthenticated, getAuthenticated } from '../model/authenticated';
 const path = "https://api.bergandersen.com/api/v1";
 //const path = "http://localhost:8080/api/v1";
 
-export async function requestGet(endpoint, callback, errorCallback) {
-    const uri = `${path}${endpoint}`;
-    const opt = options('GET');
+export async function request(options, callback = (e) => alert(e), errorCallback = (e) => alert(e)) {
+    const uri = _uri(options);
+    const opt = _opt(options);
     const response = await fetch(uri, opt);
+    if (response.ok) callback(await response.json());
+    else errorCallback((response.message != null ? response.message : 'Something went wrong!'));
+}
 
-    handleResponse(response, callback, errorCallback);
-};
+export function requestOptions(endpoint, method, data) {
+    return {endpoint, method, data};
+}
 
-export async function requestPost(endpoint, data, callback, errorCallback) {
-    const uri = `${path}${endpoint}`;
-    const opt = options('POST', data);
-    const response = await fetch(uri, opt);
-
-    handleResponse(response, callback, errorCallback);
-};
-
-export async function requestPatch(endpoint, data, callback, errorCallback) {
-    const uri = `${path}${endpoint}`;
-    const opt = options('PATCH', data);
-    const response = await fetch(uri, opt);
-
-    handleResponse(response, callback, errorCallback);
-};
-
-export async function requestDelete(endpoint, callback, errorCallback) {
-    const uri = `${path}${endpoint}`;
-    const opt = options('DELETE', data);
-    const response = await fetch(uri, opt);
-
-    handleResponse(response, callback, errorCallback);
-};
+function _uri(options) {
+    return `${path}${options.endpoint}`;
+}
 
 function _headers() {
-    const headers = {};
-    headers['Content-Type'] = 'application/json';
+    const headers = {'Content-Type': 'application/json'};
     
     if (isAuthenticated()) {
         headers['Authorization'] = `Bearer ${getAuthenticated().token}`;
@@ -46,17 +29,9 @@ function _headers() {
     return headers;
 }
 
-function options(method, body) {
+function _opt(options) {
     const headers = _headers();
-    const _options = {method, headers}
-    if (body != null) _options.body = body;
-    return _options;
-}
-
-async function handleResponse(response, callback, errorCallback) {
-    if (!response.ok) {
-        errorCallback(await response)
-    } else {
-        callback(await response.json());
-    }
+    const opt = {method: options.method, headers};
+    if (options.data != null) opt.body = options.data;
+    return opt;
 }
