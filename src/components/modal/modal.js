@@ -17,7 +17,7 @@ export function modal(options) {
     return {element: wrapper, closeMethod: closeMethod};
 }
 
-export default function createModal(id, text, body) {
+export function createModal(id, text, body) {
     const header = { text };
     return modal({id, header, body});
 }
@@ -80,7 +80,7 @@ function createFooter(onclick) {
     return footer;
 }
 
-function toggleVisibility(e) {
+export function toggleVisibility(e) {
     const state = e.getAttribute('visibility');
     const newState = (state == 'false' ? true : false);
     e.setAttribute('visibility', newState);

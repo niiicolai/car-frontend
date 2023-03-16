@@ -26,5 +26,15 @@
 #cars .card {
     margin-bottom: 20px;
     width: 180px;
-    height: 280px;
+    height: 242px;
+}
+
+#cars .card footer button {
+    margin-right: 10px;
+}
+
+#edit-car-modal button,
+#new-car-modal button,
+#rent-car-modal button {
+    width: 100%;
 }

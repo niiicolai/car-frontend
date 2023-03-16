@@ -58,13 +58,13 @@
 }
 
 .modal-wrapper[visibility=true] .modal {
-    animation: show;
+    animation: showModal;
     animation-duration: .5s;
     animation-fill-mode: forwards;
     transition: right .5s ease-in-out;
 }
 
-@keyframes show {
+@keyframes showModal {
     from {
         right: -300px;
     }
@@ -74,7 +74,7 @@
     }
 }
 
-@keyframes hide {
+@keyframes hideModal {
     from {
         right: 0px;
     }

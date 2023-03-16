@@ -1,4 +1,5 @@
 import { render } from '../../util/util'
+import { getAuthenticated } from '../../model/authenticated';
 import { request, requestOptions } from '../../util/api';
 import ToastHandler from '../../components/toast/toastHandler';
 import cardBuilder from '../../components/card/card';
@@ -10,7 +11,9 @@ const toastHandler = new ToastHandler(3000);
 
 export default function reservations() {
     render(template);
-    const options = requestOptions('/reservations', 'GET', null);
+
+    const authenticated = getAuthenticated();
+    const options = requestOptions(`/reservations/find-all-by-member/${authenticated.username}`, 'GET', null);
     request(options, getReservationsSuccess, toastHandler.secondary.bind(toastHandler));
 }
 
@@ -30,7 +33,7 @@ function createReservationCard(reservation) {
     return cardBuilder()
         .className('default')
         .title(`ID: ${reservation.id}`)
-        .text(`Car ...`)
-        .footer(`Created: ${reservation.created}`)
+        .text(`Car: ${reservation.carMake}`)
+        .footer(`Rental date: ${reservation.rentalDate}`)
         .build();
 }

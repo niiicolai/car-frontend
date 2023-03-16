@@ -3,6 +3,14 @@ const USERNAME = 'USERNAME';
 const TOKEN = 'TOKEN';
 const ROLES = 'ROLES';
 
+export function ADMIN() {
+    return 'ADMIN';
+}
+
+export function MEMBER() {
+    return 'MEMBER';
+}
+
 export function clearAuthenticated() {
     localStorage.removeItem(USERNAME);
     localStorage.removeItem(TOKEN);

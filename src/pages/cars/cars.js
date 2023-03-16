@@ -1,75 +1,77 @@
 import { renderCollection } from '../../util/util';
 import { request, requestOptions } from '../../util/api';
-import { hasRole } from '../../model/authenticated';
+import { hasRole, ADMIN } from '../../model/authenticated';
 import { createSecondaryButton } from '../../components/button/button';
+import { updateCard, appendCard } from './carsCard';
+import { newCarModal, editCarModal, rentCarModal } from './carsModal';
+import { clearForm } from '../../components/form/form';
+import { toggleVisibility } from '../../components/modal/modal';
 import ToastHandler from '../../components/toast/toastHandler';
-import cardBuilder from '../../components/card/card';
-import formBuilder from '../../components/form/form';
-import createModal from '../../components/modal/modal';
 import template from './cars.html';
 
 import './cars.css';
 
+const saveMessage = 'The car was saved successfully!';
+const updateMessage = 'The car was updated successfully!';
+const rentMessage = 'The car reservation was saved successfully!';
 const toastHandler = new ToastHandler(3000);
 
 export default function cars() {
-    const rendables = [];
     let newButton = null;
+    let render = null;
 
-    if (hasRole('ADMIN')) {
-        const form = formBuilder()
-            .input('make', 'text', 'make')
-            .input('model', 'text', 'model')
-            .input('registrationNumber', 'text', 'Registration number')
-            .input('pricePrDay', 'number', 'Price pr. day')
-            .input('bestDiscount', 'number', 'Best discount')
-            .submit('Create', (data) => {
-                const options = requestOptions('/cars', 'POST', data);
-                request(options, newCarSuccess, toastHandler.secondary.bind(toastHandler));
-            })
-            .build();
-
-        const modal = createModal('new-car-modal', 'New Car', form);
-        newButton = createSecondaryButton('New car', null);
-        newButton.onclick = modal.closeMethod;
-
-        rendables.push(modal.element);
-    }
+    const rentModal = rentCarModal(onRentCar, toastHandler);
     
-    rendables.push(template);
-    renderCollection(rendables);
+    if (hasRole(ADMIN())) {
+        const newModal = newCarModal(onNewCar, toastHandler);
+        const editModal = editCarModal(onEditCar, toastHandler);
 
-    if (newButton != null) {
+        newButton = createSecondaryButton('New car');
+        newButton.onclick = newModal.closeMethod;
+
+        render = [newModal.element, editModal.element, rentModal.element, newButton, template];
+    } else {
+        render = [rentModal.element, template];
+    }
+
+    renderCollection(render);
+    fetchAllCars();
+    addNewButton(newButton);
+}   
+
+function addNewButton(newButton) {
+    if (newButton != null)
         document.querySelector('.car-header').appendChild(newButton);
-    }
+}
 
+function fetchAllCars() {
     const options = requestOptions('/cars', 'GET', null);
-    request(options, getCarsSuccess, toastHandler.secondary.bind(toastHandler));
+    request(options, onNewCars, toastHandler.secondary.bind(toastHandler));
 }
 
-function newCarSuccess(json) {
-    addCarCard(document.getElementById('cars'), json);
-    toastHandler.success('The car was saved successfully!');
+function onNewCars(cars) {
+    for (let i = 0; i < cars.length; i++)
+        appendCard(cars[i]);
 }
 
-function getCarsSuccess(cars) {
-    const wrapper = document.getElementById('cars');
-    for (let i = 0; i < cars.length; i++) {
-        addCarCard(wrapper, cars[i]);
-    }
+function onNewCar(car) {
+    appendCard(car);
+    onSuccess(saveMessage, 'new-car-modal');
 }
 
-function addCarCard(wrapper, car) {
-    const _card = createCarCard(car);
-    wrapper.appendChild(_card);
+function onEditCar(car) {
+    updateCard(car);
+    onSuccess(updateMessage, 'edit-car-modal');
 }
 
-function createCarCard(car) {
-    return cardBuilder()
-        .className('default')
-        .title(`${car.make} ${car.model}`)
-        .image(car.imgSrc, `${car.make} ${car.model} image`)
-        .text(`Price: ${car.pricePrDay}<br>Discount: ${car.bestDiscount}`)
-        .footer(`Created: ${car.created}`)
-        .build();
+function onRentCar(reservation) {
+    onSuccess(`${rentMessage} - ID: ${reservation.id}`, 'rent-car-modal');
+}
+
+function onSuccess(message, modalId) {
+    toastHandler.success(message);
+
+    const modal = document.getElementById(modalId);
+    clearForm(modal.querySelector('form'));
+    toggleVisibility(modal);
 }

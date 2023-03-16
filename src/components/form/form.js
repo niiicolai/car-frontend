@@ -30,6 +30,13 @@ export default function formBuilder() {
     return builder;
 }
 
+export function clearForm(form) {
+    const inputs = form.querySelectorAll('input');
+    for (let i = 0; i < inputs.length; i++) {
+        inputs[i].value = "";
+    }
+}
+
 function createFormElement() {
     const form = document.createElement('form');
     form.className = "form";
