@@ -2,7 +2,7 @@ import { createSecondaryButton } from '../button/button';
 
 import './form.css'
 
-export default function formBuilder() {
+export function formBuilder() {
     const builder = {};
     const elements = [];
     const form = createFormElement();
@@ -35,6 +35,18 @@ export function clearForm(form) {
     for (let i = 0; i < inputs.length; i++) {
         inputs[i].value = "";
     }
+}
+
+export function getBlankFields(data) {
+    data = JSON.parse(data);
+    let fields = [];
+    for (let key in data) {
+        if (data[key] == null ||
+            data[key] == "") {
+            fields.push(key);
+        }
+    }
+    return fields;
 }
 
 function createFormElement() {

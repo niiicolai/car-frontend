@@ -4,7 +4,6 @@
     top: -60px;
     left: 0;
     right: 0;
-    height: 60px;
     padding: 20px;
     transition: top .5s ease-in-out;
     color: var(--text-color-dark);

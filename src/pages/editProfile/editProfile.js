@@ -2,15 +2,16 @@
 import { render, redirect } from '../../util/util';
 import { request, requestOptions } from '../../util/api';
 import { getAuthenticated } from '../../model/authenticated';
+import { formBuilder, getBlankFields } from '../../components/form/form';
 import createIconBadge from '../../components/iconBadge/iconBadge';
 import ToastHandler from '../../components/toast/toastHandler';
-import formBuilder from '../../components/form/form';
 import template from './editProfile.html';
 
 import './editProfile.css';
 
 const redirectDelay = 5000;
 const toastHandler = new ToastHandler(3000);
+const blankFieldsMessage = "The following fields are required: ";
 
 export default function editProfile() {
     render(template);
@@ -30,6 +31,13 @@ function createForm(member) {
         .input('city', 'text', 'city', member.city)
         .input('zip', 'text', 'zip', member.zip)
         .submit('Update', (data) => {
+
+            let blankFields = getBlankFields(data);
+            if (blankFields.length > 0) {
+                toastHandler.secondary(blankFieldsMessage + blankFields.toString());
+                return;
+            }
+
             const options = requestOptions('/members', 'PATCH', data);
             request(options, updateSuccess, toastHandler.secondary.bind(toastHandler));
         })

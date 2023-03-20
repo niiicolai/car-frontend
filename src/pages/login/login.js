@@ -2,15 +2,16 @@ import { render, redirect } from '../../util/util';
 import { request, requestOptions } from '../../util/api';
 import { setAuthenticated } from '../../model/authenticated';
 import { createInfoLink } from '../../components/link/link';
+import { formBuilder, getBlankFields } from '../../components/form/form';
 import createIconBadge from '../../components/iconBadge/iconBadge';
 import ToastHandler from '../../components/toast/toastHandler';
-import formBuilder from '../../components/form/form';
 import template from './login.html';
 
 import './login.css';
 
 const redirectDelay = 2000;
 const toastHandler = new ToastHandler(3000);
+const blankFieldsMessage = "The following fields are required: ";
 
 export default function login() {
     initializeLogin();
@@ -22,6 +23,13 @@ function initializeLogin() {
         .input('username', 'text', 'username', 'user1')
         .input('password', 'password', 'password', 'pass')
         .submit('Login', (data) => {
+
+            let blankFields = getBlankFields(data);
+            if (blankFields.length > 0) {
+                toastHandler.secondary(blankFieldsMessage + blankFields.toString());
+                return;
+            }
+
             const options = requestOptions('/authenticate', 'POST', data);
             request(options, loginSuccess, toastHandler.secondary.bind(toastHandler));
         })
